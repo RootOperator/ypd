@@ -16,6 +16,7 @@ tauri-build = { version = "1.0.0-rc.6", features = [] }
 
 [dependencies]
 serde_json = "1.0"
+windows = "0.32.0"
 serde = { version = "1.0", features = ["derive"] }
 tauri = { version = "1.0.0-rc.13", features = ["api-all"] }
 stm = { git = "http://github.com/RootOperator/stm.git", version =  "0.1.0" }

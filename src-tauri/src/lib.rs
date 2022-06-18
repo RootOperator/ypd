@@ -11,7 +11,7 @@ const HOME: &str = "HOME";
 #[cfg(target_os = "windows")]
 const HOME: &str = "UserProfile";
 
-#[derive(ToMap, FromMap)]
+#[derive(ToMap, FromMap, Debug)]
 pub struct Settings {
     music_folder: String,
     download_format: String,
@@ -48,7 +48,6 @@ impl Settings {
 
         let lines: Vec<&str> = file_settings.split("\n").collect();
 
-        
         for line in lines {
             let mut line = line.split("=");
             let key = line.next().unwrap().to_string();
@@ -70,12 +69,15 @@ impl Settings {
 
     pub fn set(settings: Settings) {
         let config_file = Settings::get_config_path();
-        let mut config_file = fs::File::open(&config_file).unwrap();
+        let mut config_file = fs::File::options()
+            .write(true)
+            .open(&config_file)
+            .unwrap();
         let settings: String = Settings::to_map(settings)
             .iter()
             .map(|(k, v)| format!("{}={}\n", k, v))
             .collect();
-       
+
         config_file.write(settings.as_bytes()).unwrap();
     }
 
