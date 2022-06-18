@@ -33,7 +33,7 @@ impl Default for Settings {
 pub fn testing() {
     let s = Settings::get();
     let set = Settings {
-        music_folder: "kanker".to_string(),
+        music_folder: "test".to_string(),
         ..Default::default()
     };
     Settings::set(set);
@@ -96,13 +96,14 @@ impl Settings {
                 let mut config = fs::File::create(&config_path).unwrap();
                 let setting_string: String = Settings::to_map(Settings::default())
                     .iter()
-                    .map(|(k, v)| format!("{}={}", k, v))
+                    .map(|(k, v)| format!("{}={}\n", k, v))
                     .collect();
 
                 config.write_all(setting_string.as_bytes()).unwrap();
             } else {
                 config_path.push("config");
             }
+
             config_path
         } else {
             panic!("Home folder could not be found!");
